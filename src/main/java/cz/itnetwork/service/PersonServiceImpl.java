@@ -21,6 +21,7 @@
  */
 package cz.itnetwork.service;
 
+import cz.itnetwork.controller.PersonController;
 import cz.itnetwork.dto.PersonDTO;
 import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.PersonEntity;
@@ -74,24 +75,18 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDTO(fetchPersonById(id));
     }
 
-    /*
     @Override
     public PersonDTO updatePerson(long personId, PersonDTO personDTO) {
-        try {
+
             PersonEntity person = fetchPersonById(personId);
             person.setHidden(true);
 
             personRepository.save(person);
 
 
-
-        } catch (NotFoundException ignored) {
-            // The contract in the interface states, that no exception is thrown, if the entity is not found.
-        }
-
-        return
+        return addPerson (personDTO);
     }
-    */
+
 
 
 

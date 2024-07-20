@@ -31,9 +31,7 @@ public interface PersonService {
 
     PersonDTO getPerson(long id);
 
-    /*
     PersonDTO updatePerson(long id, PersonDTO personDTO);
-    */
 
 
 }

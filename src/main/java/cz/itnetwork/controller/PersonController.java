@@ -54,9 +54,16 @@ public class PersonController {
     public PersonDTO getPerson(@PathVariable Long personId) {
         return personService.getPerson(personId);
     }
+
+    @PutMapping("/persons/{personId}")
+    public PersonDTO updatePerson(@PathVariable Long personId, @RequestBody PersonDTO personDTO) {
+        return personService.updatePerson(personId, personDTO);
+    }
 }
 
-//Todo: dodělat třídy na práci s invoice.Pouze Entity a DTO naplnit atributy
+/*
+Todo: UCs Vypsání seznamů faktur(Všech, vystavených konkr. firmy, prijatých konkr. firmy);
+ */
 
 
 

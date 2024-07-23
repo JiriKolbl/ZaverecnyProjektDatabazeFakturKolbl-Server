@@ -3,10 +3,12 @@ package cz.itnetwork.service;
 import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.entity.InvoiceEntity;
+import cz.itnetwork.entity.PersonEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +46,17 @@ public class InvoiceServiceImpl implements  InvoiceService{
                 .stream()
                 .map(i -> invoiceMapper.toDto(i))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public InvoiceDTO getInvoiceById(long invoiceId){
+        return invoiceMapper.toDto(fetchInvoiceId(invoiceId));
+    }
+
+
+
+    private InvoiceEntity fetchInvoiceId(long id) {
+        return invoiceRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Invoice with id " + id + " wasn't found in the database."));
     }
 }

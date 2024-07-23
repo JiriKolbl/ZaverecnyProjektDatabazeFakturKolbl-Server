@@ -26,4 +26,9 @@ public class InvoiceController {
         return invoiceService.getAllInvoices();
     }
 
+    @GetMapping("/invoices/{invoiceId}")
+    public InvoiceDTO getSingleInvoice(@PathVariable Long invoiceId) {
+        return invoiceService.getInvoiceById(invoiceId);
+    }
+
 }

@@ -21,14 +21,12 @@
  */
 package cz.itnetwork.service;
 
-import cz.itnetwork.controller.PersonController;
 import cz.itnetwork.dto.PersonDTO;
 import cz.itnetwork.dto.mapper.PersonMapper;
 import cz.itnetwork.entity.PersonEntity;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.webjars.NotFoundException;
 
 import java.util.List;
@@ -109,6 +107,5 @@ public class PersonServiceImpl implements PersonService {
     Vytáhnout entitu
     Přeuložit s hidden = true
     přetypovat na dto
-
      */
 }

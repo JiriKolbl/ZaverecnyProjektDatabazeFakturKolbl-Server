@@ -21,14 +21,19 @@
  */
 package cz.itnetwork.service;
 
+import cz.itnetwork.dto.InvoiceDTO;
 import cz.itnetwork.dto.PersonDTO;
+import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.dto.mapper.PersonMapper;
+import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.PersonEntity;
+import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +45,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private InvoiceMapper invoiceMapper;
 
     public PersonDTO addPerson(PersonDTO personDTO) {
         PersonEntity entity = personMapper.toEntity(personDTO);
@@ -84,6 +95,31 @@ public class PersonServiceImpl implements PersonService {
 
         return addPerson (personDTO);
     }
+
+    @Override
+    public List<InvoiceDTO> getInvoicesBySeller(String identificationNumber) {
+        List<InvoiceEntity> entities = invoiceRepository.findAll();
+
+        List<InvoiceDTO> result = new ArrayList<>();
+        for (InvoiceEntity e : entities) {
+            if(e.getSeller().getIdentificationNumber().equals(identificationNumber)) {
+                result.add(invoiceMapper.toDto(e));
+            }
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<InvoiceDTO> getInvoicesByBuyer(String identificationNumber) {
+
+        return invoiceRepository.findAll()
+                .stream()
+                .filter(i -> i.getBuyer().getIdentificationNumber().equals(identificationNumber))
+                .map(i -> invoiceMapper.toDto(i))
+                .collect(Collectors.toList());
+    }
+
 
 
 

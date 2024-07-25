@@ -37,8 +37,6 @@ public class InvoiceMapperImpl implements InvoiceMapper {
         invoiceEntity.setPrice( invoiceDTO.getPrice() );
         invoiceEntity.setVat( invoiceDTO.getVat() );
         invoiceEntity.setNote( invoiceDTO.getNote() );
-        invoiceEntity.setBuyer( personDTOToPersonEntity( invoiceDTO.getBuyer() ) );
-        invoiceEntity.setSeller( personDTOToPersonEntity( invoiceDTO.getSeller() ) );
 
         return invoiceEntity;
     }
@@ -51,6 +49,8 @@ public class InvoiceMapperImpl implements InvoiceMapper {
 
         InvoiceDTO invoiceDTO = new InvoiceDTO();
 
+        invoiceDTO.setSeller( personEntityToPersonDTO( invoiceEntity.getSeller() ) );
+        invoiceDTO.setBuyer( personEntityToPersonDTO1( invoiceEntity.getBuyer() ) );
         invoiceDTO.setId( invoiceEntity.getId() );
         invoiceDTO.setInvoiceNumber( invoiceEntity.getInvoiceNumber() );
         if ( invoiceEntity.getIssued() != null ) {
@@ -63,38 +63,64 @@ public class InvoiceMapperImpl implements InvoiceMapper {
         invoiceDTO.setPrice( invoiceEntity.getPrice() );
         invoiceDTO.setVat( invoiceEntity.getVat() );
         invoiceDTO.setNote( invoiceEntity.getNote() );
-        invoiceDTO.setBuyer( personEntityToPersonDTO( invoiceEntity.getBuyer() ) );
-        invoiceDTO.setSeller( personEntityToPersonDTO( invoiceEntity.getSeller() ) );
 
         return invoiceDTO;
     }
 
-    protected PersonEntity personDTOToPersonEntity(PersonDTO personDTO) {
-        if ( personDTO == null ) {
-            return null;
+    @Override
+    public InvoiceEntity updateEntity(InvoiceDTO source, InvoiceEntity target) {
+        if ( source == null ) {
+            return target;
         }
 
-        PersonEntity personEntity = new PersonEntity();
+        target.setId( source.getId() );
+        target.setInvoiceNumber( source.getInvoiceNumber() );
+        if ( source.getIssued() != null ) {
+            target.setIssued( Date.from( source.getIssued().atStartOfDay( ZoneOffset.UTC ).toInstant() ) );
+        }
+        else {
+            target.setIssued( null );
+        }
+        if ( source.getDueDate() != null ) {
+            target.setDueDate( Date.from( source.getDueDate().atStartOfDay( ZoneOffset.UTC ).toInstant() ) );
+        }
+        else {
+            target.setDueDate( null );
+        }
+        target.setProduct( source.getProduct() );
+        target.setPrice( source.getPrice() );
+        target.setVat( source.getVat() );
+        target.setNote( source.getNote() );
 
-        personEntity.setId( personDTO.getId() );
-        personEntity.setName( personDTO.getName() );
-        personEntity.setIdentificationNumber( personDTO.getIdentificationNumber() );
-        personEntity.setTaxNumber( personDTO.getTaxNumber() );
-        personEntity.setAccountNumber( personDTO.getAccountNumber() );
-        personEntity.setBankCode( personDTO.getBankCode() );
-        personEntity.setIban( personDTO.getIban() );
-        personEntity.setTelephone( personDTO.getTelephone() );
-        personEntity.setMail( personDTO.getMail() );
-        personEntity.setStreet( personDTO.getStreet() );
-        personEntity.setZip( personDTO.getZip() );
-        personEntity.setCity( personDTO.getCity() );
-        personEntity.setCountry( personDTO.getCountry() );
-        personEntity.setNote( personDTO.getNote() );
-
-        return personEntity;
+        return target;
     }
 
     protected PersonDTO personEntityToPersonDTO(PersonEntity personEntity) {
+        if ( personEntity == null ) {
+            return null;
+        }
+
+        PersonDTO personDTO = new PersonDTO();
+
+        personDTO.setId( personEntity.getId() );
+        personDTO.setName( personEntity.getName() );
+        personDTO.setIdentificationNumber( personEntity.getIdentificationNumber() );
+        personDTO.setTaxNumber( personEntity.getTaxNumber() );
+        personDTO.setAccountNumber( personEntity.getAccountNumber() );
+        personDTO.setBankCode( personEntity.getBankCode() );
+        personDTO.setIban( personEntity.getIban() );
+        personDTO.setTelephone( personEntity.getTelephone() );
+        personDTO.setMail( personEntity.getMail() );
+        personDTO.setStreet( personEntity.getStreet() );
+        personDTO.setZip( personEntity.getZip() );
+        personDTO.setCity( personEntity.getCity() );
+        personDTO.setCountry( personEntity.getCountry() );
+        personDTO.setNote( personEntity.getNote() );
+
+        return personDTO;
+    }
+
+    protected PersonDTO personEntityToPersonDTO1(PersonEntity personEntity) {
         if ( personEntity == null ) {
             return null;
         }

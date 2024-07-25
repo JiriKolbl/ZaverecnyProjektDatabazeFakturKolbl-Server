@@ -138,10 +138,4 @@ public class PersonServiceImpl implements PersonService {
                 .orElseThrow(() -> new NotFoundException("Person with id " + id + " wasn't found in the database."));
     }
     // endregion
-
-    /*
-    Vytáhnout entitu
-    Přeuložit s hidden = true
-    přetypovat na dto
-     */
 }

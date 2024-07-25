@@ -55,11 +55,10 @@ public class InvoiceServiceImpl implements  InvoiceService{
     }
 
     @Override
-    public ResponseEntity<Void> deleteInvoiceById(long invoiceId) {
+    public void deleteInvoiceById(long invoiceId) {
         InvoiceEntity entity = fetchInvoiceById(invoiceId);
         invoiceRepository.delete(entity);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override

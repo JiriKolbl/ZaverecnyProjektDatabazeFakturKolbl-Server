@@ -13,7 +13,7 @@ public interface InvoiceService {
 
     InvoiceDTO getInvoiceById(long invoiceId);
 
-    ResponseEntity<Void> deleteInvoiceById(long invoiceId);
+    void deleteInvoiceById(long invoiceId);
 
     InvoiceDTO updateInvoice(long invoiceId, InvoiceDTO invoiceDTO);
 }

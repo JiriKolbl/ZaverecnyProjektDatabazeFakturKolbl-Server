@@ -121,7 +121,7 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-
+    @Override
     public List<PersonStatisticDTO> getAllPersonStatistics() {
         return personRepository.findPersonRevenue();
     }

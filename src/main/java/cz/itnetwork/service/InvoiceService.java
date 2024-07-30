@@ -1,7 +1,7 @@
 package cz.itnetwork.service;
 
 import cz.itnetwork.dto.InvoiceDTO;
-import org.springframework.http.ResponseEntity;
+import cz.itnetwork.dto.InvoiceStatisticDTO;
 
 import java.util.List;
 
@@ -16,4 +16,6 @@ public interface InvoiceService {
     void deleteInvoiceById(long invoiceId);
 
     InvoiceDTO updateInvoice(long invoiceId, InvoiceDTO invoiceDTO);
+
+    InvoiceStatisticDTO getInvoiceStatistics();
 }

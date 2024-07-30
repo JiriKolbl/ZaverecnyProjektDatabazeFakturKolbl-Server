@@ -1,13 +1,12 @@
 package cz.itnetwork.service;
 
 import cz.itnetwork.dto.InvoiceDTO;
+import cz.itnetwork.dto.InvoiceStatisticDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
@@ -79,6 +78,23 @@ public class InvoiceServiceImpl implements  InvoiceService{
 
         return invoiceMapper.toDto(saved);
     }
+
+    @Override
+    public InvoiceStatisticDTO getInvoiceStatistics() {
+
+        return invoiceRepository.findInvoiceStatistic();
+
+        /*
+        Double currentYearSum = invoiceRepository.findSumInvoicesPriceOfThisYear();
+        Double allTimeSum = invoiceRepository.findSumOfAllInvoicesPrice();
+        Long invoicesCount = invoiceRepository.findCountOfAllInvoices();
+
+        return  new InvoiceStatisticDTO(currentYearSum, allTimeSum, invoicesCount);
+
+         */
+    }
+
+
 
     private InvoiceEntity fetchInvoiceById(long id) {
         return invoiceRepository.findById(id)

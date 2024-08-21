@@ -8,43 +8,43 @@ import java.util.List;
 
 public interface InvoiceService {
     /**
-     * Method (create) for adding of invoice to database
-     * @param invoiceDTO - objekt of invoice from frontend
-     * @return object of invoice returned from database with id
+     * Metoda vytvoří objekt osoby a uloží do databáze
+     * @param invoiceDTO - objekt osoby z front-endu
+     * @return InvoiceDTO s přiřazeným id
      */
     InvoiceDTO addInvoice(InvoiceDTO invoiceDTO);
 
     /**
-     * Method (read) for getting all invoices
-     * @param invoiceFilter object of filter from frontend (empty or with some/all attributes selected)
-     * @return filtered or unfiltered list of invoice objects
+     * Metoda získá veškeré faktury z databáze splňující filtr
+     * @param invoiceFilter objekt filtru podle kterého filtrujeme
+     * @return vyfiltrovaný list DTO faktur
      */
     List<InvoiceDTO> getAllInvoices(InvoiceFilter invoiceFilter);
 
     /**
-     * Method (read) gets single invoice selected by its id
-     * @param invoiceId id from url
-     * @return single object of invoice by id
+     * Metoda získá jeden objekt faktury podle id z url
+     * @param invoiceId id parametr z url
+     * @return Jeden objekt DTO faktury
      */
     InvoiceDTO getInvoiceById(long invoiceId);
 
     /**
-     * Deletes single invoice from invoice table in database
-     * @param invoiceId param from url
+     * Smaže fakturu z databáze
+     * @param invoiceId param z url podle kterého mažeme
      */
     void deleteInvoiceById(long invoiceId);
 
     /**
-     * Updates extising invoice from databse table invoice
-     * @param invoiceId param od from url
-     * @param invoiceDTO object from frontend
-     * @return updated object saved to database
+     * Upraví existující záznam faktury nalezené podle id z url
+     * @param invoiceId param id z url
+     * @param invoiceDTO objekt z front-end formuláře
+     * @return upravený objekt uložený do databáze
      */
     InvoiceDTO updateInvoice(long invoiceId, InvoiceDTO invoiceDTO);
 
     /**
-     * Method calls Query from InvoiceRepository
-     * @return object of InvoiceStatisticDTO
+     * Metoda pomocí query z databáze spočítá statistiku všech faktur
+     * @return jediný obejtk InvoiceStatisticDTO
      */
     InvoiceStatisticDTO getInvoiceStatistics();
 }

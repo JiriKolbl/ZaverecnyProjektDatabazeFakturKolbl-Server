@@ -5,6 +5,9 @@ import lombok.Data;
 import java.time.LocalDate;
 @Data
 public class InvoiceFilter {
+    /**
+     * Atributy filtru pro filtraci faktur.
+     */
     private Long sellerID;
     private Long buyerID;
     private String product;

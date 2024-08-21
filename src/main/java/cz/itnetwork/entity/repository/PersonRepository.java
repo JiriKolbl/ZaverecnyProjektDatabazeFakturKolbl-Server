@@ -29,21 +29,12 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
-    List<PersonEntity> findByHidden(boolean hidden);
-    /*
-        V query COALESCE zajišťuje, že pokud bude hodnota po spojení LEFT JOINem null .. což bude u každé osoby (levá tabulka),
-         která není připojena k faktuře jakožto seller(pravá tabulka invoice) (tudíž nemá žádný výdělek), tak se ve výpisu
-         null nahradí za 0
-     */
     /**
-     * Vytváří statistiky osob a jejich obratů za určité období a ukládá je do seznamu
-     * @return List PersonStatisticDTO naplněné hodnotami ke každé osobě v databázi včetně těch bez vazby k faktuře
+     * Hledá entity osob podle toho zda-li jsou hidden v databázi
+     * @param hidden
+     * @return
      */
-    @Query("SELECT new cz.itnetwork.dto.PersonStatisticDTO(p.id, p.name, COALESCE(SUM(i.price), 0)) " +
-            "FROM person p LEFT JOIN invoice i ON p.id = i.seller AND YEAR(i.issued) = YEAR(CURRENT_DATE) - 1 " +
-            "GROUP BY p.id, p.name " + "ORDER BY COALESCE(SUM(i.price), 0) DESC")
-    List<PersonStatisticDTO> findPersonLastYearRevenue(); //Nepoužito
-
+    List<PersonEntity> findByHidden(boolean hidden);
     /**
      * Vytváří statistiky osob a jejich obratů a ukládá je do seznamu
      * @return List PersonStatisticDTO naplněné hodnotami ke každé osobě v databázi včetně těch bez vazby k faktuře

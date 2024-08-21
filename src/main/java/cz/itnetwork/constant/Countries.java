@@ -23,5 +23,8 @@
 package cz.itnetwork.constant;
 
 public enum Countries {
+    /**
+     * Výčet enum národností kterých může být osoba
+     */
     CZECHIA, SLOVAKIA
 }

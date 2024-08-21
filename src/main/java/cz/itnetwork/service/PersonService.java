@@ -8,25 +8,21 @@ import java.util.List;
 
 public interface PersonService {
     /**
-     * Creates a new person
-     *
-     * @param personDTO Person to create
-     * @return newly created person
+     * Vytvoří novou osobu a uloží do databáze
+     * @param personDTO objekt z front-endu
+     * @return PersonDTO s přiřazeným id
      */
     PersonDTO addPerson(PersonDTO personDTO);
 
     /**
-     * <p>Sets hidden flag to true for the person with the matching [id]</p>
-     * <p>In case a person with the passed [id] isn't found, the method <b>silently fails</b></p>
-     *
-     * @param id Person to delete
+     * Nastavuje atribut osoby hidden na true a ukládá
+     * @param id osoby ke smazání
      */
     void removePerson(long id);
 
     /**
-     * Fetches all non-hidden persons
-     *
-     * @return List of all non-hidden persons
+     * Získá všechny osoby s hidden na false
+     * @return List všech osob s hidden nastaveným na false
      */
     List<PersonDTO> getAll();
 
@@ -38,7 +34,8 @@ public interface PersonService {
     PersonDTO getPerson(long id);
 
     /**
-     * Upravuje osobu tak, že oroginálnímu objektu nastaví hidden na true(1) a vytvoří novou osobu z objektu došlého z reactu
+     * Upravuje osobu tak, že oroginálnímu objektu nastaví hidden na true(1) a vytvoří novou osobu z objektu
+     * došlého z reactu
      * @param id - id osoby kterou chceme upravit
      * @param personDTO objekt nové(upravené) osoby došlé z frontendu
      * @return vrací již upravenou osobu
@@ -59,7 +56,8 @@ public interface PersonService {
     List<InvoiceDTO> getInvoicesByBuyer(String identificationNumber);
 
     /**
-     * Method gets values from query in PersonRepository
+     * Metoda vypočítá přes databázový příkaz statistiku jedné osoby a takto vytvoří list statistik všech osob
+     * s hidden nastaveným na false
      * @return PersonStatisticDTO
      */
     List<PersonStatisticDTO> getAllPersonStatistics();

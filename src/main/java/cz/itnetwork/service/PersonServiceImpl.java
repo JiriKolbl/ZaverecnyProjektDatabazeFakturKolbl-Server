@@ -174,8 +174,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     /**
-     * Metoda vytvářející statistiky podle šablony PersonStatisticDTO a počítající její hodnoty na úrovni databázovehé query
-     * nacházejícím se v InvoiceRepository
+     * Metoda vytvářející statistiky podle šablony PersonStatisticDTO a počítající její hodnoty na úrovni
+     * databázovehé query nacházejícím se v InvoiceRepository
      * @return List DTO statistiky pro veškeré osoby v tabulce
      * @see cz.itnetwork.controller.PersonController <- využité v
      */

@@ -37,46 +37,82 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    /**
+     * Zpracovává požadavek POST na url /persons pro vytvoření nové osoby
+     * @param personDTO - objekt DTO z front-endu
+     * @return uložený objekt DTO z databáze s id
+     */
     @PostMapping("/persons")
     public PersonDTO addPerson(@RequestBody PersonDTO personDTO) {
         return  personService.addPerson(personDTO);
     }
 
+    /**
+     * Zpracovává požadavek GET na url /persons
+     * @return List všech osob z databéze PersonDTO
+     */
     @GetMapping("/persons")
     public List<PersonDTO> getPersons() {
         return personService.getAll();
     }
 
+    /**
+     * Zpracovává požadavek Delete (skryje osobu, nemaže ji)
+     * @param personId parametr id z url
+     */
     @DeleteMapping("/persons/{personId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePerson(@PathVariable Long personId) {
         personService.removePerson(personId);
     }
 
+    /**
+     * Zpracovává požadavek GET a pomocí id nalezne v databázi jednu osobu
+     * @param personId paramtr id z url
+     * @return jedno PersonDTO z databáze
+     */
     @GetMapping("/persons/{personId}")
-
     public PersonDTO getPerson(@PathVariable Long personId) {
         return personService.getPerson(personId);
     }
 
+    /**
+     * Zpracovává požadavek PUT a upravuje záznam osobu z databáze
+     * @param personId pramatetr id z url
+     * @param personDTO objekt z formuláře front-endu
+     * @return Změněný záznam PersonDTO
+     */
     @PutMapping("/persons/{personId}")
-
     public PersonDTO updatePerson(@PathVariable Long personId, @RequestBody PersonDTO personDTO) {
         return personService.updatePerson(personId, personDTO);
     }
 
+    /**
+     * Zpracovává požadavek GET a vyhledá přes repozitář všechny faktury kde osoba s daným identificationNumber
+     * figuruje jako seller
+     * @param identificationNumber parametr identificationNumber z url
+     * @return List všech faktur kde osoba s daným identificationNumber figuruje jako seller
+     */
     @GetMapping("/identification/{identificationNumber}/sales")
-
     public List<InvoiceDTO> getAllSellerInvoices(@PathVariable String identificationNumber) {
         return personService.getInvoicesBySeller(identificationNumber);
     }
 
+    /**
+     * Zpracovává požadavek GET a vyhledá přes repozitář všechny faktury kde osoba s daným identificationNumber
+     * figuruje jako buyer
+     * @param identificationNumber parametr identificationNumber z url
+     * @return List všech faktur kde osoba s daným identificationNumber figuruje jako buyer
+     */
     @GetMapping("/identification/{identificationNumber}/purchases")
-
     public List<InvoiceDTO> getAllBuyerInvoices(@PathVariable String identificationNumber) {
         return personService.getInvoicesByBuyer(identificationNumber);
     }
 
+    /**
+     * Zpracovává požadavek GET a přes QUERY v databázi spočítá statistiku všech osob v databázi
+     * @return List statistik všech osob
+     */
     @GetMapping("/persons/statistics")
     public List<PersonStatisticDTO> getAllPersonStatistic() {
         return personService.getAllPersonStatistics();

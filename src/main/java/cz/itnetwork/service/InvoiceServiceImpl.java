@@ -88,8 +88,8 @@ public class InvoiceServiceImpl implements  InvoiceService{
     }
 
     /**
-     * Metoda získá objekt faktury z databáze, pak ho upraví, setne Id, ručně setne objekty Person(buyer a seller) protože
-     * je mapper ignoruje a uloží do databáze pod stejným id jako původní objekt
+     * Metoda získá objekt faktury z databáze, pak ho upraví, setne Id, ručně setne objekty Person(buyer a seller)
+     * protože je mapper ignoruje a uloží do databáze pod stejným id jako původní objekt
      * @param invoiceId id faktury podle kterého hledáme
      * @param invoiceDTO objekt faktury který upravujeme
      * @return vrací upravený objekt faktury

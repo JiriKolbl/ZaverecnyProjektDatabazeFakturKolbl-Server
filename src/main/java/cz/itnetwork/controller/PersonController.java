@@ -26,6 +26,7 @@ import cz.itnetwork.dto.PersonDTO;
 import cz.itnetwork.dto.PersonStatisticDTO;
 import cz.itnetwork.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class PersonController {
-
     @Autowired
     private PersonService personService;
 
@@ -48,26 +48,31 @@ public class PersonController {
     }
 
     @DeleteMapping("/persons/{personId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePerson(@PathVariable Long personId) {
         personService.removePerson(personId);
     }
 
     @GetMapping("/persons/{personId}")
+
     public PersonDTO getPerson(@PathVariable Long personId) {
         return personService.getPerson(personId);
     }
 
     @PutMapping("/persons/{personId}")
+
     public PersonDTO updatePerson(@PathVariable Long personId, @RequestBody PersonDTO personDTO) {
         return personService.updatePerson(personId, personDTO);
     }
 
     @GetMapping("/identification/{identificationNumber}/sales")
+
     public List<InvoiceDTO> getAllSellerInvoices(@PathVariable String identificationNumber) {
         return personService.getInvoicesBySeller(identificationNumber);
     }
 
     @GetMapping("/identification/{identificationNumber}/purchases")
+
     public List<InvoiceDTO> getAllBuyerInvoices(@PathVariable String identificationNumber) {
         return personService.getInvoicesByBuyer(identificationNumber);
     }
@@ -77,10 +82,6 @@ public class PersonController {
         return personService.getAllPersonStatistics();
     }
 }
-
-/*
-Todo: UCs Vypsání seznamů faktur(Všech, vystavených konkr. firmy, prijatých konkr. firmy);
- */
 
 
 

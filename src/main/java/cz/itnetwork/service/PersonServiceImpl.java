@@ -26,7 +26,6 @@ import cz.itnetwork.dto.PersonDTO;
 import cz.itnetwork.dto.PersonStatisticDTO;
 import cz.itnetwork.dto.mapper.InvoiceMapper;
 import cz.itnetwork.dto.mapper.PersonMapper;
-import cz.itnetwork.entity.InvoiceEntity;
 import cz.itnetwork.entity.PersonEntity;
 import cz.itnetwork.entity.repository.InvoiceRepository;
 import cz.itnetwork.entity.repository.PersonRepository;
@@ -34,13 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-
+    // Fields region
     @Autowired
     private PersonMapper personMapper;
 
@@ -53,6 +51,13 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private InvoiceMapper invoiceMapper;
 
+    //Public methods region
+    /**
+     * Metoda uloží nový záznam do tabulku z údajů z PersonDTO bez id
+     * @param personDTO osoba k vytvoření
+     * @return vrací zpět PersonDTO osoby kterou uložila již s id
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     public PersonDTO addPerson(PersonDTO personDTO) {
         PersonEntity entity = personMapper.toEntity(personDTO);
         entity = personRepository.save(entity);
@@ -60,47 +65,81 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.toDTO(entity);
     }
 
+    /**
+     * Metoda Metoda která nic nevrací. Osobu určenou pro smazání pouze skryje pomocí nastavení isHidden na true(1)
+     * a uloží
+     * @param personId id osoby pro smazání
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     @Override
     public void removePerson(long personId) {
         try {
             PersonEntity person = fetchPersonById(personId);
             person.setHidden(true);
-
             personRepository.save(person);
         } catch (NotFoundException ignored) {
             // The contract in the interface states, that no exception is thrown, if the entity is not found.
         }
     }
 
+    /**
+     * Metoda získávající veškeré osoby z tabulky persons
+     * @return List všech osob v dat. typu PersonDTO
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     @Override
     public List<PersonDTO> getAll() {
         return personRepository.findByHidden(false)
                 .stream()
                 .map(i -> personMapper.toDTO(i))
-                .collect(Collectors.toList());
+                .toList();
+                //.collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @param id dat. typ long
+     * @return jediné dto osoby PersonDTO nalezené podle specifického id
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     @Override
     public PersonDTO getPerson(long id) {
         return personMapper.toDTO(fetchPersonById(id));
     }
 
+    /**
+     *  Metoda pro úpravu osoby v dazabázi podle jejího id ... Původní osobu nastaví hidden na true(1), čímž ji schová.
+     *  Jako parametry bere id podle kterého hledá v databázi a původní osobu z databáze kterou vkládá do formuláře
+     * @param personId
+     * @param personDTO
+     * @return nové dto osoby PersonDTO (nově vytvořené) s pozměněnými údaji původní osoby
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     @Override
     public PersonDTO updatePerson(long personId, PersonDTO personDTO) {
-
-            PersonEntity person = fetchPersonById(personId);
-            person.setHidden(true);
-
-            personRepository.save(person);
-
+        PersonEntity person = fetchPersonById(personId);
+        person.setHidden(true);
+        personRepository.save(person);
 
         return addPerson (personDTO);
     }
 
+    /**
+     * Metoda filtruje faktury podle iča kde osoba figuruje jako seller na úrovni databáze a urychluje tak proces
+     * filtrování při vysokém počtu záznamů v databázi
+     * @param identificationNumber
+     * @return List faktur kde ičo osoby seller je rovno identificationNumber
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     @Override
     public List<InvoiceDTO> getInvoicesBySeller(String identificationNumber) {
+        return invoiceRepository.findBySeller_IdentificationNumber(identificationNumber)
+                .stream()
+                .map(i -> invoiceMapper.toDto(i))
+                .collect(Collectors.toList());
+        /*
+        Původní metoda filtrující faktury na úrovni Springu
         List<InvoiceEntity> entities = invoiceRepository.findAll();
-
         List<InvoiceDTO> result = new ArrayList<>();
         for (InvoiceEntity e : entities) {
             if(e.getSeller().getIdentificationNumber().equals(identificationNumber)) {
@@ -108,33 +147,49 @@ public class PersonServiceImpl implements PersonService {
             }
         }
         return result;
+         */
     }
 
-
+    /**
+     * Metoda filtruje faktury podle iča kde osoba figuruje jako buyer na úrovni databáze
+     * @param identificationNumber
+     * @return List faktur kde ičo osoby buyer je rovno identificationNumber
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     @Override
     public List<InvoiceDTO> getInvoicesByBuyer(String identificationNumber) {
+        return invoiceRepository.findByBuyer_IdentificationNumber(identificationNumber)
+                .stream()
+                .map(i -> invoiceMapper.toDto(i))
+                .collect(Collectors.toList());
 
+        /**
+         * Moje původní podoba metody která filtrovala na úrovni Springu
         return invoiceRepository.findAll()
                 .stream()
                 .filter(i -> i.getBuyer().getIdentificationNumber().equals(identificationNumber))
                 .map(i -> invoiceMapper.toDto(i))
                 .collect(Collectors.toList());
+        */
     }
 
+    /**
+     * Metoda vytvářející statistiky podle šablony PersonStatisticDTO a počítající její hodnoty na úrovni databázovehé query
+     * nacházejícím se v InvoiceRepository
+     * @return List DTO statistiky pro veškeré osoby v tabulce
+     * @see cz.itnetwork.controller.PersonController <- využité v
+     */
     @Override
     public List<PersonStatisticDTO> getAllPersonStatistics() {
         return personRepository.findPersonRevenue();
     }
 
-
     // region: Private methods
     /**
-     * <p>Attempts to fetch a person.</p>
-     * <p>In case a person with the passed [id] doesn't exist a [{@link org.webjars.NotFoundException}] is thrown.</p>
-     *
-     * @param id Person to fetch
-     * @return Fetched entity
-     * @throws org.webjars.NotFoundException In case a person with the passed [id] isn't found
+     * Metoda fetchuje osobu na základě id předaného v long z person repozitáře a ukládá ji do entity
+     * @param id parametr podle kterého hledá
+     * @return získaná osoba
+     * @throws org.webjars.NotFoundException * Pokud ji nenajde, vyhodí error, že v databázi nenalezla osobu s tímto id
      */
     private PersonEntity fetchPersonById(long id) {
         return personRepository.findById(id)

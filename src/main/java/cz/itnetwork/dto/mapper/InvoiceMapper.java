@@ -8,13 +8,8 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface InvoiceMapper {
-
-    @Mapping(target = "buyer", ignore = true)
-    @Mapping(target = "seller", ignore = true)
     InvoiceEntity toEntity(InvoiceDTO invoiceDTO);
 
-    @Mapping(target = "seller.id", source = "seller.id")
-    @Mapping(target = "buyer.id", source = "buyer.id")
     InvoiceDTO toDto(InvoiceEntity invoiceEntity);
 
     @Mapping(target = "buyer", ignore = true)

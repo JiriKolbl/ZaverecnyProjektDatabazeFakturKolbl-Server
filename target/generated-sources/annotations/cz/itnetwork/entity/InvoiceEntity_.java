@@ -2,7 +2,7 @@ package cz.itnetwork.entity;
 
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.annotation.processing.Generated;
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
@@ -13,11 +13,11 @@ public abstract class InvoiceEntity_ {
 	public static volatile SingularAttribute<InvoiceEntity, String> note;
 	public static volatile SingularAttribute<InvoiceEntity, String> product;
 	public static volatile SingularAttribute<InvoiceEntity, Long> price;
-	public static volatile SingularAttribute<InvoiceEntity, Date> dueDate;
+	public static volatile SingularAttribute<InvoiceEntity, LocalDate> dueDate;
 	public static volatile SingularAttribute<InvoiceEntity, Integer> invoiceNumber;
 	public static volatile SingularAttribute<InvoiceEntity, Integer> vat;
 	public static volatile SingularAttribute<InvoiceEntity, Long> id;
-	public static volatile SingularAttribute<InvoiceEntity, Date> issued;
+	public static volatile SingularAttribute<InvoiceEntity, LocalDate> issued;
 	public static volatile SingularAttribute<InvoiceEntity, PersonEntity> buyer;
 
 	public static final String SELLER = "seller";

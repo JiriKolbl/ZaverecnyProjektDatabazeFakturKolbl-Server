@@ -93,7 +93,6 @@ public class PersonServiceImpl implements PersonService {
                 .stream()
                 .map(i -> personMapper.toDTO(i))
                 .toList();
-                //.collect(Collectors.toList());
     }
 
     /**
@@ -137,17 +136,7 @@ public class PersonServiceImpl implements PersonService {
                 .stream()
                 .map(i -> invoiceMapper.toDto(i))
                 .collect(Collectors.toList());
-        /*
-        Původní metoda filtrující faktury na úrovni Springu
-        List<InvoiceEntity> entities = invoiceRepository.findAll();
-        List<InvoiceDTO> result = new ArrayList<>();
-        for (InvoiceEntity e : entities) {
-            if(e.getSeller().getIdentificationNumber().equals(identificationNumber)) {
-                result.add(invoiceMapper.toDto(e));
-            }
-        }
-        return result;
-         */
+
     }
 
     /**
@@ -163,14 +152,6 @@ public class PersonServiceImpl implements PersonService {
                 .map(i -> invoiceMapper.toDto(i))
                 .collect(Collectors.toList());
 
-        /**
-         * Moje původní podoba metody která filtrovala na úrovni Springu
-        return invoiceRepository.findAll()
-                .stream()
-                .filter(i -> i.getBuyer().getIdentificationNumber().equals(identificationNumber))
-                .map(i -> invoiceMapper.toDto(i))
-                .collect(Collectors.toList());
-        */
     }
 
     /**

@@ -117,13 +117,6 @@ public class InvoiceServiceImpl implements  InvoiceService{
     public InvoiceStatisticDTO getInvoiceStatistics() {
 
         return invoiceRepository.findInvoiceStatistic();
-        /*
-        Double currentYearSum = invoiceRepository.findSumInvoicesPriceOfThisYear();
-        Double allTimeSum = invoiceRepository.findSumOfAllInvoicesPrice();
-        Long invoicesCount = invoiceRepository.findCountOfAllInvoices();
-
-        return  new InvoiceStatisticDTO(currentYearSum, allTimeSum, invoicesCount);
-         */
     }
 
     // region Private methods

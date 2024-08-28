@@ -1,0 +1,31 @@
+Ceníme práci na projektu! 🏆 Prohlédli jsme si kód a máme k němu následující poznámky:
+
+Doporučuji do repository nedávat sekundární binární soubory - celá složka target, například. 
+Líbi se mi, když je kontroller linkován na konkrétní část api, aby se to ve všech mapováních nemuselo opakovat, stejně tak osoby (a jejich servisy, repository apod.) nemusejí záviset na fakturách (obráceně ano).
+Celkově moc hezké.
+
+Práce do kurzu PRO jsou hodnoceny na společném Code Review podle následujících bodů a kritérií:
+
+Code Review Projektu
+====================
+1) Funguje to
+2) Funguje to i v okrajových případech
+3) Funguje to dle specifikace
+   - úprava osoby skryje původní a vytvoří novou (nové id)
+   - seznam přijatých/vydaných faktur dle IČO, i když jsou to různé osoby
+   - součet faktur za rok není větší než součet celkem
+4) Clean code, Best practices, DRY
+   - nejsou nevyužité importy
+   - zformátovaný kód bez zakomentovaných bloků kódu
+   - seznam vydaných/přijatých faktur jednou funkcí
+   - nevyhazuje chyby či ladící hlášky do konzole apod.
+   - konzistentně a smysluplně velké a malé typy v DTO a entitách
+5) Mapování kontrolerů a API endpointů
+   - osoby (Person*) nejsou závislé na fakturách (Invoice), včetně služeb, mapperů atd.
+6) Vypořádání s nejednoznačnostmi zadání
+   - co se stane, když upravuju záznam přiřazený již neexistující/změněné osobě?
+   - můžu změnit ičo, a co je potom ve statistikách?
+   - jsou vidět flash messages?
+7) Statistiky - DTO!
+
+9) Rozšíření funkčnosti, klikací jména osob, generování záznamů, rozšíření statistik, vlastní CSS, ...
